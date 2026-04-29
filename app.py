@@ -2,47 +2,46 @@ import streamlit as st
 
 # 1. Page Config
 st.set_page_config(
-    page_title="GlobalInternet.py", 
+    page_title="GlobalInternet.py Promotion", 
     layout="wide", 
     initial_sidebar_state="expanded"
 )
 
 # 2. Initialize Toggle State
 if 'show_info' not in st.session_state:
-    st.session_state.show_info = False
+    st.session_state.show_info = True # Set to True so it's visible by default
 
 # 3. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 4. Sidebar with "Quote" Toggle Logic
+# 4. Sidebar with Toggle Logic
 with st.sidebar:
-    st.title("Menu")
+    st.title("Navigation")
     
-    # Standardizing the button to ensure it triggers the state change
+    # Toggle Button with Quotes
     if st.button('“ Tap to see/hide info ”'):
         st.session_state.show_info = not st.session_state.show_info
 
-    # Direct check of the state
+    # Information Display Logic
     if st.session_state.show_info:
         st.markdown("---")
         st.markdown("### **Partnership & Promotion**")
         st.write("Visit us at **Nic Honestly Crafted Ice Creams**:")
-        # Direct URL link for maximum compatibility
-        st.markdown("[Visit Nic Ice Creams](https://www.nicicecreams.com/)")
+        st.markdown("[Visit Nic Ice Creams Official Site](https://www.nicicecreams.com/)")
         
         st.divider()
         
-        st.write("**GlobalInternet.py**")
+        st.markdown("#### **GlobalInternet.py**")
         st.write("The best online company to promote your online business.")
 
-# 5. CSS for Fullscreen, Brown Sidebar, and White Text
+# 5. CSS for Fullscreen Video, Name Update, and White Text
+# Note: Double curly braces {{ }} are used to avoid the SyntaxError
 st.markdown(f"""
     <style>
     /* Hide top Streamlit UI */
     footer {{ visibility: hidden; }}
     header {{ visibility: hidden; }}
     
-    /* Main Background & Text Color */
     .stApp {{
         margin: 0;
         padding: 0;
@@ -55,12 +54,7 @@ st.markdown(f"""
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }}
     
-    /* Force ALL text inside the sidebar to be white */
-    [data-testid="stSidebar"] p, 
-    [data-testid="stSidebar"] h1, 
-    [data-testid="stSidebar"] h3, 
-    [data-testid="stSidebar"] span,
-    [data-testid="stSidebar"] div {{
+    [data-testid="stSidebar"] * {{
         color: white !important;
     }}
 
@@ -80,39 +74,30 @@ st.markdown(f"""
         object-fit: cover;
     }}
 
-    /* Text Overlay styling */
+    /* Text Overlay styling (Top Video) */
     .top-overlay {{
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        padding: 30px 0;
+        padding: 40px 0;
         text-align: center;
         z-index: 9999;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
     }}
 
     .website-name {{
         color: white !important;
         font-family: 'Arial Black', sans-serif;
-        font-size: 3rem;
+        font-size: 3.5rem;
         margin: 0;
-        letter-spacing: 3px;
-        text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
-    }}
-
-    .author-name {{
-        color: white !important;
-        font-family: 'Arial', sans-serif;
-        font-size: 1.1rem;
-        margin-top: 5px;
-        letter-spacing: 1px;
+        letter-spacing: 4px;
+        text-shadow: 4px 4px 15px rgba(0,0,0,1);
     }}
     </style>
 
     <div class="top-overlay">
-        <h1 class="website-name">GlobalInternet.py</h1>
-        <p class="author-name">built by Gesner Deslandes</p>
+        <h1 class="website-name">GlobalInternet.py Promotion</h1>
     </div>
 
     <div class="video-container">
