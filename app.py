@@ -18,18 +18,17 @@ video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-I
 with st.sidebar:
     st.title("Menu")
     
-    # We use a button styled like a quote link to act as the "tap" trigger
-    # When clicked, it toggles the visibility of the information below it
+    # Standardizing the button to ensure it triggers the state change
     if st.button('“ Tap to see/hide info ”'):
         st.session_state.show_info = not st.session_state.show_info
-        st.rerun()
 
-    # Information appears/disappears based on the toggle state
+    # Direct check of the state
     if st.session_state.show_info:
         st.markdown("---")
         st.markdown("### **Partnership & Promotion**")
         st.write("Visit us at **Nic Honestly Crafted Ice Creams**:")
-        st.link_button("Visit Nic Ice Creams", "https://www.nicicecreams.com/")
+        # Direct URL link for maximum compatibility
+        st.markdown("[Visit Nic Ice Creams](https://www.nicicecreams.com/)")
         
         st.divider()
         
@@ -48,25 +47,20 @@ st.markdown(f"""
         margin: 0;
         padding: 0;
         background-color: #4a2c21;
-        color: white !important;
     }}
 
     /* Sidebar Styling: Brown Background & White Text */
-    section[data-testid="stSidebar"] {{
+    [data-testid="stSidebar"] {{
         background-color: #4a2c21 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }}
     
-    /* Ensure Sidebar Quote Button looks clean */
-    div.stButton > button {{
-        background-color: transparent !important;
-        color: white !important;
-        border: 1px solid rgba(255,255,255,0.3) !important;
-        font-style: italic;
-        width: 100%;
-    }}
-
-    section[data-testid="stSidebar"] * {{
+    /* Force ALL text inside the sidebar to be white */
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h3, 
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] div {{
         color: white !important;
     }}
 
