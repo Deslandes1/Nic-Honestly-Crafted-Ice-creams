@@ -6,14 +6,14 @@ st.set_page_config(page_title="GlobalInternet.py", layout="wide", initial_sideba
 # 2. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 3. CSS for Fullscreen Video and White Text Overlay
+# 3. CSS for Fullscreen Video and White Text Overlay (With Doubled Braces)
 st.markdown(f"""
     <style>
     /* Hide all Streamlit UI */
-    #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
-    header {{visibility: hidden;}}
-    [data-testid="stSidebar"] {{visibility: hidden;}}
+    #MainMenu {{ visibility: hidden; }}
+    footer {{ visibility: hidden; }}
+    header {{ visibility: hidden; }}
+    [data-testid="stSidebar"] {{ visibility: hidden; }}
     
     .stApp {{
         margin: 0;
@@ -47,7 +47,6 @@ st.markdown(f"""
         padding: 30px 0;
         text-align: center;
         z-index: 9999;
-        /* Subtle gradient to ensure white text is visible even over light video frames */
         background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
     }}
 
@@ -68,7 +67,7 @@ st.markdown(f"""
         letter-spacing: 1px;
         opacity: 0.9;
         text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-    }
+    }}
     </style>
 
     <div class="top-overlay">
