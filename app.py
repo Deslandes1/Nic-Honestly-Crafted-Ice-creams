@@ -2,19 +2,19 @@ import streamlit as st
 
 # 1. Page Config
 st.set_page_config(
-    page_title="GlobalInternet.py Promotion", 
+    page_title="NIC Honestly Crafted Ice Creams", 
     layout="wide", 
     initial_sidebar_state="expanded"
 )
 
 # 2. Initialize Toggle State
 if 'show_info' not in st.session_state:
-    st.session_state.show_info = True # Set to True so it's visible by default
+    st.session_state.show_info = True 
 
 # 3. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 4. Sidebar with Toggle Logic
+# 4. Sidebar Content
 with st.sidebar:
     st.title("Navigation")
     
@@ -34,8 +34,7 @@ with st.sidebar:
         st.markdown("#### **GlobalInternet.py**")
         st.write("The best online company to promote your online business.")
 
-# 5. CSS for Fullscreen Video, Name Update, and White Text
-# Note: Double curly braces {{ }} are used to avoid the SyntaxError
+# 5. CSS for Fullscreen Video and Updated Header
 st.markdown(f"""
     <style>
     /* Hide top Streamlit UI */
@@ -48,7 +47,7 @@ st.markdown(f"""
         background-color: #4a2c21;
     }}
 
-    /* Sidebar Styling: Brown Background & White Text */
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {{
         background-color: #4a2c21 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -58,7 +57,7 @@ st.markdown(f"""
         color: white !important;
     }}
 
-    /* Video styling */
+    /* Video container to fill screen */
     .video-container {{
         position: fixed;
         top: 0;
@@ -74,13 +73,13 @@ st.markdown(f"""
         object-fit: cover;
     }}
 
-    /* Text Overlay styling (Top Video) */
+    /* Text Overlay styling for the NIC header */
     .top-overlay {{
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        padding: 40px 0;
+        padding: 50px 0;
         text-align: center;
         z-index: 9999;
         background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
@@ -91,13 +90,13 @@ st.markdown(f"""
         font-family: 'Arial Black', sans-serif;
         font-size: 3.5rem;
         margin: 0;
-        letter-spacing: 4px;
+        letter-spacing: 2px;
         text-shadow: 4px 4px 15px rgba(0,0,0,1);
     }}
     </style>
 
     <div class="top-overlay">
-        <h1 class="website-name">GlobalInternet.py Promotion</h1>
+        <h1 class="website-name">NIC Honestly Crafted Ice Creams</h1>
     </div>
 
     <div class="video-container">
