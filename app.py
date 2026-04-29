@@ -1,49 +1,46 @@
 import streamlit as st
 
-# 1. Page Config to hide the sidebar by default
-st.set_page_config(page_title="NIC Ice Creams", layout="wide", initial_sidebar_state="collapsed")
+# 1. Page Config to hide all UI
+st.set_page_config(page_title="NIC Welcome", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. Raw GitHub Link (Changed 'blob' to 'raw' so the player can stream it)
-video_url = "https://github.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/raw/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
+# 2. RAW GitHub Video Link (Corrected format)
+# We replace 'github.com' with 'raw.githubusercontent.com' and remove '/blob/'
+video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 3. CSS to make the video cover the entire screen
+# 3. CSS to force the video to fill the screen
 st.markdown(f"""
     <style>
-    /* Hide Streamlit UI elements */
+    /* Hide Streamlit elements */
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
     header {{visibility: hidden;}}
+    [data-testid="stSidebar"] {{visibility: hidden;}}
+    
     .stApp {{
         margin: 0;
         padding: 0;
-        background-color: #4a2c21; /* Matches your background color */
+        background-color: #4a2c21;
         overflow: hidden;
     }}
 
-    /* Video styling to fill the whole screen */
-    .fullscreen-bg {{
+    /* Video Container */
+    .video-container {{
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        overflow: hidden;
-        z-index: -1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        z-index: 9999;
     }}
 
     video {{
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures the video covers the screen without stretching */
     }}
     </style>
 
-    <div class="fullscreen-bg">
+    <div class="video-container">
         <video autoplay loop muted playsinline>
             <source src="{video_url}" type="video/mp4">
             Your browser does not support the video tag.
