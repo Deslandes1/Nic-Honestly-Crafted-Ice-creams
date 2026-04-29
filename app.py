@@ -9,22 +9,22 @@ st.set_page_config(
 
 # 2. Initialize Toggle State
 if 'show_info' not in st.session_state:
-    st.session_state.show_info = False # Start closed for a clean look
+    st.session_state.show_info = False
 
 # 3. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 4. Sidebar with Interactive Tap Logic
+# 4. Sidebar with "Quote" Toggle Logic
 with st.sidebar:
     st.title("Menu")
     
-    # The Toggle Button
-    button_label = "Close Info" if st.session_state.show_info else "Tap for Info"
-    if st.button(button_label):
+    # We use a button styled like a quote link to act as the "tap" trigger
+    # When clicked, it toggles the visibility of the information below it
+    if st.button('“ Tap to see/hide info ”'):
         st.session_state.show_info = not st.session_state.show_info
-        st.rerun() # Refresh to show/hide immediately
+        st.rerun()
 
-    # Content appears only if toggled 'on'
+    # Information appears/disappears based on the toggle state
     if st.session_state.show_info:
         st.markdown("---")
         st.markdown("### **Partnership & Promotion**")
@@ -57,7 +57,15 @@ st.markdown(f"""
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }}
     
-    /* Force all text elements to white */
+    /* Ensure Sidebar Quote Button looks clean */
+    div.stButton > button {{
+        background-color: transparent !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        font-style: italic;
+        width: 100%;
+    }}
+
     section[data-testid="stSidebar"] * {{
         color: white !important;
     }}
