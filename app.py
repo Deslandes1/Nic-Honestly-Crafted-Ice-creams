@@ -1,19 +1,31 @@
 import streamlit as st
 
-# 1. Page Config
-st.set_page_config(page_title="GlobalInternet.py", layout="wide", initial_sidebar_state="collapsed")
+# 1. Page Config - We set it to expanded so users see your sidebar message immediately
+st.set_page_config(
+    page_title="GlobalInternet.py", 
+    layout="wide", 
+    initial_sidebar_state="expanded"
+)
 
 # 2. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 3. CSS for Fullscreen Video and White Text Overlay (With Doubled Braces)
+# 3. Sidebar Content
+with st.sidebar:
+    st.markdown("### **Partnership & Promotion**")
+    st.write("Visit us at **Nic Honestly Crafted Ice Creams**:")
+    st.link_button("Visit Nic Ice Creams", "https://www.nicicecreams.com/")
+    
+    st.divider()
+    
+    st.info("**GlobalInternet.py** — The best online company to promote your online business.")
+
+# 4. CSS for Fullscreen Video and White Text Overlay
 st.markdown(f"""
     <style>
-    /* Hide all Streamlit UI */
-    #MainMenu {{ visibility: hidden; }}
+    /* Hide top Streamlit UI */
     footer {{ visibility: hidden; }}
     header {{ visibility: hidden; }}
-    [data-testid="stSidebar"] {{ visibility: hidden; }}
     
     .stApp {{
         margin: 0;
