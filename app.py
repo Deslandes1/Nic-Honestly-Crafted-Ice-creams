@@ -6,7 +6,7 @@ st.set_page_config(page_title="GlobalInternet.py", layout="wide", initial_sideba
 # 2. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 3. CSS for Fullscreen Video and Top Text Overlay
+# 3. CSS for Fullscreen Video and White Text Overlay
 st.markdown(f"""
     <style>
     /* Hide all Streamlit UI */
@@ -44,33 +44,36 @@ st.markdown(f"""
         top: 0;
         left: 0;
         width: 100%;
-        padding: 20px;
+        padding: 30px 0;
         text-align: center;
-        z-index: 9999; /* Ensure it stays above the video */
-        background: rgba(0, 0, 0, 0.3); /* Subtle dark fade for readability */
+        z-index: 9999;
+        /* Subtle gradient to ensure white text is visible even over light video frames */
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
     }}
 
     .website-name {{
-        color: white;
+        color: #FFFFFF !important;
         font-family: 'Arial Black', sans-serif;
-        font-size: 2.5rem;
+        font-size: 3rem;
         margin: 0;
-        letter-spacing: 2px;
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        letter-spacing: 3px;
+        text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
     }}
 
     .author-name {{
-        color: #fce4ec;
-        font-family: 'Courier New', monospace;
-        font-size: 1.2rem;
-        margin: 5px 0 0 0;
-        font-weight: bold;
-    }}
+        color: #FFFFFF !important;
+        font-family: 'Arial', sans-serif;
+        font-size: 1.1rem;
+        margin-top: 5px;
+        letter-spacing: 1px;
+        opacity: 0.9;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    }
     </style>
 
     <div class="top-overlay">
         <h1 class="website-name">GlobalInternet.py</h1>
-        <p class="author-name">Built by Gesner Deslandes</p>
+        <p class="author-name">built by Gesner Deslandes</p>
     </div>
 
     <div class="video-container">
