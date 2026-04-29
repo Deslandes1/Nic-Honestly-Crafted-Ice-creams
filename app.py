@@ -7,25 +7,35 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. RAW GitHub Video Link
+# 2. Initialize Toggle State
+if 'show_info' not in st.session_state:
+    st.session_state.show_info = True
+
+def toggle_info():
+    st.session_state.show_info = not st.session_state.show_info
+
+# 3. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 3. Sidebar with Closeable Logic
-st.sidebar.title("Menu")
-show_info = st.sidebar.radio("Display Sidebar Info?", ["Show Details", "Hide Details"])
+# 4. Sidebar with Tap-to-Toggle Logic
+with st.sidebar:
+    st.title("Menu")
+    # Tapping this button toggles the visibility
+    if st.button("Tap to Toggle Info"):
+        toggle_info()
 
-if show_info == "Show Details":
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### **Partnership & Promotion**")
-    st.sidebar.write("Visit us at **Nic Honestly Crafted Ice Creams**:")
-    st.sidebar.link_button("Visit Nic Ice Creams", "https://www.nicicecreams.com/")
-    
-    st.sidebar.divider()
-    
-    st.sidebar.write("**GlobalInternet.py**")
-    st.sidebar.write("The best online company to promote your online business.")
+    if st.session_state.show_info:
+        st.markdown("---")
+        st.markdown("### **Partnership & Promotion**")
+        st.write("Visit us at **Nic Honestly Crafted Ice Creams**:")
+        st.link_button("Visit Nic Ice Creams", "https://www.nicicecreams.com/")
+        
+        st.divider()
+        
+        st.write("**GlobalInternet.py**")
+        st.write("The best online company to promote your online business.")
 
-# 4. CSS for Fullscreen, Brown Sidebar, and White Text
+# 5. CSS for Fullscreen, Brown Sidebar, and White Text
 st.markdown(f"""
     <style>
     /* Hide top Streamlit UI */
@@ -40,16 +50,13 @@ st.markdown(f"""
         color: white !important;
     }}
 
-    /* Force all sidebar text to be white and background to be brown */
+    /* Sidebar Styling: Brown Background & White Text */
     section[data-testid="stSidebar"] {{
         background-color: #4a2c21 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }}
     
-    section[data-testid="stSidebar"] .stText, 
-    section[data-testid="stSidebar"] p, 
-    section[data-testid="stSidebar"] h1, 
-    section[data-testid="stSidebar"] h3 {{
+    section[data-testid="stSidebar"] * {{
         color: white !important;
     }}
 
@@ -96,7 +103,6 @@ st.markdown(f"""
         font-size: 1.1rem;
         margin-top: 5px;
         letter-spacing: 1px;
-        opacity: 0.9;
     }}
     </style>
 
