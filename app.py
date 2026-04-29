@@ -9,21 +9,22 @@ st.set_page_config(
 
 # 2. Initialize Toggle State
 if 'show_info' not in st.session_state:
-    st.session_state.show_info = True
-
-def toggle_info():
-    st.session_state.show_info = not st.session_state.show_info
+    st.session_state.show_info = False # Start closed for a clean look
 
 # 3. RAW GitHub Video Link
 video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 
-# 4. Sidebar with Tap-to-Toggle Logic
+# 4. Sidebar with Interactive Tap Logic
 with st.sidebar:
     st.title("Menu")
-    # Tapping this button toggles the visibility
-    if st.button("Tap to Toggle Info"):
-        toggle_info()
+    
+    # The Toggle Button
+    button_label = "Close Info" if st.session_state.show_info else "Tap for Info"
+    if st.button(button_label):
+        st.session_state.show_info = not st.session_state.show_info
+        st.rerun() # Refresh to show/hide immediately
 
+    # Content appears only if toggled 'on'
     if st.session_state.show_info:
         st.markdown("---")
         st.markdown("### **Partnership & Promotion**")
@@ -56,6 +57,7 @@ st.markdown(f"""
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }}
     
+    /* Force all text elements to white */
     section[data-testid="stSidebar"] * {{
         color: white !important;
     }}
