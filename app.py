@@ -1,48 +1,32 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+import streamlit as st
 
-# Setup the figure and axis
-fig, ax = plt.subplots(figsize=(6, 6))
-ax.set_xlim(-2, 2)
-ax.set_ylim(-1, 4)
-ax.set_aspect('equal')
-ax.axis('off')
+# Set page configuration
+st.set_page_config(page_title="Gesner Deslandes - Welcome", page_icon="🍦")
 
-# Drawing the "Cup" (a simple trapezoid)
-cup_x = [-1, 1, 0.8, -0.8, -1]
-cup_y = [1.5, 1.5, 0, 0, 1.5]
-ax.plot(cup_x, cup_y, color='tan', linewidth=4)
-ax.fill(cup_x, cup_y, color='#FFE4C4', alpha=0.5)
+# The Raw GitHub link to your image
+# Note: changed 'blob' to 'raw' so Streamlit can read the file directly
+image_url = "https://github.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/raw/main/image1.png"
 
-# Ice cream flavor data: (Color, initial position)
-flavors = [
-    {'color': '#ffb3ba', 'label': 'Strawberry'},
-    {'color': '#baffc9', 'label': 'Mint'},
-    {'color': '#ffdfba', 'label': 'Orange'},
-    {'color': '#bae1ff', 'label': 'Blueberry'},
-    {'color': '#6f4e37', 'label': 'Chocolate'}
-]
+# Display the Welcome Header
+st.title("Welcome to Our App Suite")
+st.subheader("Honestly Crafted Innovation by Gesner Deslandes")
 
-# Create circles for each flavor
-circles = []
-for f in flavors:
-    circle = plt.Circle((0, 2), 0.5, color=f['color'], ec='black', lw=1)
-    ax.add_patch(circle)
-    circles.append(circle)
+# Display the moving ice cream image/GIF
+st.image(image_url, caption="Our Signature Flavors in Motion", use_column_width=True)
 
-# Animation function
-def update(frame):
-    for i, circle in enumerate(circles):
-        # Create a swirling/bouncing motion using sine and cosine
-        # Each flavor gets a slightly different offset (i * 1.2)
-        x = 0.4 * np.cos(frame / 10 + i * 1.2)
-        y = 1.8 + 0.3 * np.sin(frame / 7 + i * 1.5)
-        circle.set_center((x, y))
-    return circles
+# Information Section
+st.write("---")
+st.markdown("""
+### 🚀 Start Your Free Trial
+We are offering a **two-week free trial**! Explore our suite of applications, learn new skills, and see which tool fits your needs best.
 
-# Create the animation
-ani = FuncAnimation(fig, update, frames=np.linspace(0, 100, 200), interval=50, blit=True)
+* **No restrictions:** Use any app you want.
+* **Duration:** 14 days of full access.
+""")
 
-plt.title("Gesner Deslandes: Ice Cream App Trial", fontsize=12, color='brown')
-plt.show()
+# Call to Action
+if st.button("Get in Touch with the CEO"):
+    st.write("Contacting **Gesner Deslandes CEO**... Please check our contact page or email support.")
+
+# Footer Link
+st.info(f"Visit the full site: [Click Here](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
