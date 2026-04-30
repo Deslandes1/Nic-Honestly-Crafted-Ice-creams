@@ -9,20 +9,21 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-video_html = f"""
+# Full HTML/CSS/JS page that fits any screen
+html_code = f"""
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        html, body {{
+        body {{
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
-            background-color: black;
+            background: black;
         }}
         .video-container {{
             position: fixed;
@@ -30,37 +31,34 @@ video_html = f"""
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
-            background-color: black;
+            background: black;
         }}
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;    /* First video full screen */
+            object-fit: cover;   /* first video fills screen */
         }}
-        .show-table {{
+        .second-video-style {{
             object-fit: cover !important;
-            object-position: 50% 85% !important;   /* Crop to show table, hide bad text */
+            object-position: 50% 85% !important;   /* crop to show table */
         }}
-        .top-overlay {{
+        .marquee {{
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px 0;
-            z-index: 9999;
+            padding: 15px 0;
             background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
-            pointer-events: none;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-size: clamp(1rem, 4vw, 1.6rem);
+            font-weight: bold;
             white-space: nowrap;
             overflow: hidden;
+            z-index: 9999;
+            pointer-events: none;
         }}
-        .simple-marquee {{
-            font-family: 'Arial', sans-serif;
-            font-size: clamp(1rem, 5vw, 1.8rem);
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 8px black;
-            white-space: nowrap;
+        .marquee span {{
             display: inline-block;
             padding-left: 100%;
             animation: scroll 20s linear infinite;
@@ -72,46 +70,40 @@ video_html = f"""
     </style>
 </head>
 <body>
-    <div class="top-overlay">
-        <div style="overflow: hidden; white-space: nowrap;">
-            <div class="simple-marquee">
-                Celebrate big with NIC Ice Creams – contact us for special offers for bulk or party orders today! &nbsp;&nbsp;&nbsp;
-                Celebrate big with NIC Ice Creams – contact us for special offers for bulk or party orders today! &nbsp;&nbsp;&nbsp;
-            </div>
-        </div>
+    <div class="marquee">
+        <span>Celebrate big with NIC Ice Creams – contact us for special offers for bulk or party orders today! &nbsp;&nbsp;&nbsp; Celebrate big with NIC Ice Creams – contact us for special offers for bulk or party orders today! &nbsp;&nbsp;&nbsp;</span>
     </div>
     <div class="video-container">
-        <video id="vidPlayer" autoplay muted playsinline>
-            <source id="vidSource" src="{video_1}" type="video/mp4">
+        <video id="player" autoplay muted playsinline>
+            <source src="{video_1}" type="video/mp4">
         </video>
     </div>
     <script>
-        var player = document.getElementById('vidPlayer');
-        var source = document.getElementById('vidSource');
+        var player = document.getElementById('player');
         var secondVideo = "{video_2}";
         var playedSecond = false;
         var timeout;
 
-        timeout = setTimeout(function() {{
+        function switchToSecond() {{
             if (!playedSecond) {{
                 playedSecond = true;
                 clearTimeout(timeout);
-                source.src = secondVideo;
-                player.classList.add('show-table');
+                player.src = secondVideo;
+                player.classList.add('second-video-style');
                 player.load();
                 player.play();
+                // Stop after second video ends
                 player.onended = function() {{ }};
             }}
-        }}, 5000);
+        }}
 
+        // Switch after 5 seconds
+        timeout = setTimeout(switchToSecond, 5000);
+
+        // If first video ends before 5 seconds, switch anyway
         player.onended = function() {{
             if (!playedSecond) {{
-                playedSecond = true;
-                clearTimeout(timeout);
-                source.src = secondVideo;
-                player.classList.add('show-table');
-                player.load();
-                player.play();
+                switchToSecond();
             }}
         }};
     </script>
@@ -119,40 +111,30 @@ video_html = f"""
 </html>
 """
 
-# Hide Streamlit default UI and force the component's iframe to full screen
-hide_streamlit_style = """
+# Kill Streamlit's default UI and force fullscreen
+st.markdown(
+    """
     <style>
         header, footer, .stApp, .main, .block-container {
             visibility: hidden;
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
             height: 100%;
         }
         .stApp {
+            background: black;
             margin: 0;
             padding: 0;
-            background-color: black;
         }
         [data-testid="stSidebar"] { display: none; }
         .main > div {
             padding: 0 !important;
             max-width: 100% !important;
         }
-        /* Target the iframe generated by components.v1.html */
-        iframe {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            border: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            z-index: 9999 !important;
-        }
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
-# Use the original components.v1.html (still works, avoids width validation issues)
-st.components.v1.html(video_html, height=800, scrolling=False)
+# Inject the HTML directly (no iframe)
+st.markdown(html_code, unsafe_allow_html=True)
