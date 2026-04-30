@@ -11,9 +11,9 @@ st.set_page_config(
 if 'show_info' not in st.session_state:
     st.session_state.show_info = True 
 
-# 3. Direct Video Links
-v1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
-v2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
+# 3. Direct Video Links (Using the RAW format)
+video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
+video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
 # 4. Sidebar Content
 with st.sidebar:
@@ -29,11 +29,12 @@ with st.sidebar:
         st.divider()
         st.markdown("### 🚀 Powered by GlobalInternet.py")
         st.write("We promote your online business with the best-fit video content.")
-        st.write(f"📞 **Phone:** (509)-47385663")
-        st.write(f"📧 **Email:** deslandes78@gmail.com")
+        st.write("📞 **Phone:** (509)-47385663")
+        st.write("📧 **Email:** deslandes78@gmail.com")
         st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
 
-# 5. CSS & Slideshow JavaScript
+# 5. CSS & Javascript for the Slideshow
+# NOTE: All CSS/JS braces are doubled {{ }} to avoid f-string SyntaxErrors
 st.markdown(f"""
     <style>
     footer {{ visibility: hidden; }}
@@ -86,23 +87,22 @@ st.markdown(f"""
     </div>
 
     <div class="video-container">
-        <video id="player" autoplay muted playsinline>
-            <source id="source" src="{v1}" type="video/mp4">
+        <video id="vidPlayer" autoplay muted playsinline>
+            <source id="vidSource" src="{video_1}" type="video/mp4">
         </video>
     </div>
 
     <script>
-    var vid = document.getElementById('player');
-    var src = document.getElementById('source');
-    var list = ["{v1}", "{v2}"];
-    var i = 0;
+    var player = document.getElementById('vidPlayer');
+    var source = document.getElementById('vidSource');
+    var clips = ["{video_1}", "{video_2}"];
+    var currentClip = 0;
 
-    vid.onended = function() {{
-        i = (i + 1) % list.length;
-        console.log("Switching to video: " + list[i]);
-        src.src = list[i];
-        vid.load();
-        vid.play();
+    player.onended = function() {{
+        currentClip = (currentClip + 1) % clips.length;
+        source.src = clips[currentClip];
+        player.load();
+        player.play();
     }};
     </script>
     """, unsafe_allow_html=True)
