@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with moving text and second video cropped to hide bad script
+# 3. Full‑screen video player with moving text and second video cropped to show the table
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -38,10 +38,10 @@ video_html = f"""
             height: 100%;
             object-fit: contain;   /* First video shows full frame */
         }}
-        /* For second video: cover full screen, start showing from 60% down (hides top text) */
-        .hide-top-text {{
+        /* For second video: cover full screen, show only bottom part (table) */
+        .show-table {{
             object-fit: cover !important;
-            object-position: 50% 60% !important;  /* Adjust percentage to hide bad script and show heads */
+            object-position: 50% 85% !important;  /* Shows bottom 15% where table is */
         }}
         .top-overlay {{
             position: fixed;
@@ -96,8 +96,7 @@ video_html = f"""
             if (!playedSecond) {{
                 playedSecond = true;
                 source.src = secondVideo;
-                // Apply cropping to hide the bad English script
-                player.classList.add('hide-top-text');
+                player.classList.add('show-table');
                 player.load();
                 player.play();
             }}
