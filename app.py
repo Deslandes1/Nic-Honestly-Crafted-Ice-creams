@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with scrolling text at the top
+# 3. Full‑screen video player with moving text and top‑crop for second video
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -36,9 +36,13 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: contain;   /* Shows whole video, no cropping */
+            object-fit: contain;   /* Shows whole original frames */
+            transition: clip-path 0.1s ease;
         }}
-        /* Moving text overlay */
+        /* Class added to second video to crop the top */
+        .crop-top {{
+            clip-path: inset(60px 0 0 0);  /* Remove top 60 pixels – adjust as needed */
+        }}
         .top-overlay {{
             position: fixed;
             top: 0;
@@ -51,29 +55,6 @@ video_html = f"""
             white-space: nowrap;
             overflow: hidden;
         }}
-        .marquee {{
-            display: inline-block;
-            white-space: nowrap;
-            animation: scrollText 20s linear infinite;
-            font-family: 'Arial', sans-serif;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 8px black;
-            letter-spacing: 1px;
-        }}
-        @keyframes scrollText {{
-            0% {{ transform: translateX(100%); }}
-            100% {{ transform: translateX(-100%); }}
-        }}
-        /* Optional: add a second identical text to make it seamless */
-        .marquee-wrapper {{
-            display: flex;
-            gap: 3rem;
-            width: fit-content;
-            animation: scrollText 25s linear infinite;
-        }}
-        /* Simpler single-line marquee */
         .simple-marquee {{
             font-family: 'Arial', sans-serif;
             font-size: 1.8rem;
@@ -116,6 +97,8 @@ video_html = f"""
                 playedSecond = true;
                 source.src = secondVideo;
                 player.load();
+                // Apply top crop to second video
+                player.classList.add('crop-top');
                 player.play();
             }}
         }};
@@ -137,5 +120,5 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# 5. Embed the video player with moving text
+# 5. Embed the video player
 st.components.v1.html(video_html, height=800, scrolling=False)
