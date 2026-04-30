@@ -11,30 +11,42 @@ st.set_page_config(
 if 'show_info' not in st.session_state:
     st.session_state.show_info = True 
 
-# 3. RAW GitHub Video Link
-video_url = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
+# 3. Video Links
+# First Video (Flavors)
+video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
+# Second Video (Slideshow/Writing)
+video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
 # 4. Sidebar Content
 with st.sidebar:
-    st.title("Navigation")
+    st.title("Menu")
     
-    # Toggle Button with Quotes
     if st.button('“ Tap to see/hide info ”'):
         st.session_state.show_info = not st.session_state.show_info
 
-    # Information Display Logic
     if st.session_state.show_info:
         st.markdown("---")
-        st.markdown("### **Partnership & Promotion**")
-        st.write("Visit us at **Nic Honestly Crafted Ice Creams**:")
-        st.markdown("[Visit Nic Ice Creams Official Site](https://www.nicicecreams.com/)")
+        st.markdown("### 🍦 Indulge in Perfection")
+        st.write("""
+        Experience the art of pure indulgence. **NIC Honestly Crafted Ice Creams** is a masterpiece of flavor and texture. 
+        From classic favorites to innovative new depositions, every scoop is crafted with honesty and quality.
+        """)
+        st.markdown("👉 **Visit us:** [www.nicicecreams.com](https://www.nicicecreams.com/)")
         
         st.divider()
         
-        st.markdown("#### **GlobalInternet.py**")
-        st.write("The best online company to promote your online business.")
+        st.markdown("### 🚀 Powered by GlobalInternet.py")
+        st.write("""
+        We promote your online business by generating the **best-fit video content** tailored to your brand’s identity.
+        Ready to take your online presence to the next level?
+        """)
+        st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
+        st.write("📧 **Email:** deslandes78@gmail.com")
+        st.write("📞 **Phone:** (509)-47385663")
+        
+        st.caption("“We don't just build websites; we craft digital experiences that sell.”")
 
-# 5. CSS for Fullscreen Video and Updated Header
+# 5. CSS and JavaScript for Video Slideshow
 st.markdown(f"""
     <style>
     /* Hide top Streamlit UI */
@@ -57,7 +69,7 @@ st.markdown(f"""
         color: white !important;
     }}
 
-    /* Video container to fill screen */
+    /* Video container */
     .video-container {{
         position: fixed;
         top: 0;
@@ -73,7 +85,7 @@ st.markdown(f"""
         object-fit: cover;
     }}
 
-    /* Text Overlay styling for the NIC header */
+    /* Header Overlay */
     .top-overlay {{
         position: fixed;
         top: 0;
@@ -100,9 +112,28 @@ st.markdown(f"""
     </div>
 
     <div class="video-container">
-        <video autoplay loop muted playsinline>
-            <source src="{video_url}" type="video/mp4">
-            Your browser does not support the video tag.
+        <video id="videoPlayer" autoplay muted playsinline>
+            <source id="videoSource" src="{video_1}" type="video/mp4">
         </video>
     </div>
+
+    <script>
+    var video = document.getElementById('videoPlayer');
+    var source = document.getElementById('videoSource');
+    
+    // The slideshow playlist
+    var videos = ["{video_1}", "{video_2}"];
+    var index = 0;
+
+    // Listen for the video to end
+    video.onended = function() {{
+        index++;
+        if (index >= videos.length) {{
+            index = 0; // Loop back to the first video
+        }}
+        source.src = videos[index];
+        video.load();
+        video.play();
+    }};
+    </script>
     """, unsafe_allow_html=True)
