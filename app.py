@@ -52,7 +52,7 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;   /* ✅ changed from 'cover' to show the entire video */
         }}
         .top-overlay {{
             position: fixed;
@@ -102,5 +102,4 @@ video_html = f"""
 </html>
 """
 
-# Use a fixed height; the video fills the viewport via CSS anyway
 st.components.v1.html(video_html, height=800, scrolling=False)
