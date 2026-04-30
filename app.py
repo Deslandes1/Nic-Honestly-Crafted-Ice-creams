@@ -94,18 +94,17 @@ st.markdown(f"""
     <script>
     var player = document.getElementById('vidPlayer');
     var source = document.getElementById('vidSource');
-    var clips = ["{video_1}", "{video_2}"];
-    var currentClip = 0;
+    var secondVideo = "{video_2}";
+    var playedSecond = false;
 
     player.onended = function() {{
-        // Play second video after first, then stop (no loop)
-        if (currentClip === 0) {{
-            currentClip = 1;
-            source.src = clips[currentClip];
+        if (!playedSecond) {{
+            playedSecond = true;
+            source.src = secondVideo;
             player.load();
             player.play();
         }}
-        // If second video ends, do nothing
+        // After second video ends, do nothing.
     }};
     </script>
     """, unsafe_allow_html=True)
