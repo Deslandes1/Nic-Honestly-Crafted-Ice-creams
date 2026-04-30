@@ -35,10 +35,11 @@ html_code = f"""
             height: 100%;
             object-fit: cover;
         }}
-        .second-crop {{
+        /* Uncomment the next block to crop the second video (shows bottom table) */
+        /* .second-crop {{
             object-fit: cover !important;
             object-position: 50% 85% !important;
-        }}
+        }} */
         .marquee {{
             position: fixed;
             top: 0;
@@ -64,6 +65,16 @@ html_code = f"""
             0% {{ transform: translateX(0); }}
             100% {{ transform: translateX(-100%); }}
         }}
+        .debug {{
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: lime;
+            background: black;
+            z-index: 10000;
+            font-size: 12px;
+            font-family: monospace;
+        }}
     </style>
 </head>
 <body>
@@ -75,28 +86,57 @@ html_code = f"""
             <source src="{video_1}" type="video/mp4">
         </video>
     </div>
+    <div class="debug" id="debugMsg">Loading first video...</div>
     <script>
         var video = document.getElementById('myVideo');
         var secondVideoSrc = "{video_2}";
         var secondPlayed = false;
+        var debugDiv = document.getElementById('debugMsg');
 
+        function switchToSecond() {{
+            if (secondPlayed) return;
+            secondPlayed = true;
+            debugDiv.innerHTML = 'Switching to second video...';
+            video.src = secondVideoSrc;
+            // Uncomment the next line if you want cropping:
+            // video.classList.add('second-crop');
+            video.load();
+            video.play().then(() => {{
+                debugDiv.innerHTML = 'Second video playing';
+            }}).catch(e => {{
+                debugDiv.innerHTML = 'Error playing second: ' + e.message;
+            }});
+            video.onended = function() {{ debugDiv.innerHTML = 'Second video ended'; }};
+        }}
+
+        // When first video ends
         video.onended = function() {{
+            debugDiv.innerHTML = 'First video ended, switching...';
+            switchToSecond();
+        }};
+
+        // Fallback: if ended event never fires (e.g., video stalls), switch after 30 seconds
+        setTimeout(function() {{
             if (!secondPlayed) {{
-                secondPlayed = true;
-                video.src = secondVideoSrc;
-                video.classList.add('second-crop');
-                video.load();
-                video.play();
-                // Stop after second video ends
-                video.onended = function() {{ }};
+                debugDiv.innerHTML = 'Fallback timeout triggered';
+                switchToSecond();
             }}
+        }}, 30000);
+
+        video.onerror = function() {{
+            debugDiv.innerHTML = 'Video error: ' + video.error?.message;
+        }};
+
+        // Log when video starts playing
+        video.onplaying = function() {{
+            debugDiv.innerHTML = 'Now playing: ' + (secondPlayed ? 'second' : 'first');
         }};
     </script>
 </body>
 </html>
 """
 
-# Hide Streamlit's default UI completely
+# Hide Streamlit's default UI
 st.markdown(
     """
     <style>
@@ -119,5 +159,4 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inject the fullscreen video player
 st.markdown(html_code, unsafe_allow_html=True)
