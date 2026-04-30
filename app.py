@@ -12,8 +12,8 @@ if 'show_info' not in st.session_state:
     st.session_state.show_info = True 
 
 # 3. Direct Video Links
-video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
-video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
+v1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
+v2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
 # 4. Sidebar Content
 with st.sidebar:
@@ -29,14 +29,13 @@ with st.sidebar:
         st.divider()
         st.markdown("### 🚀 Powered by GlobalInternet.py")
         st.write("We promote your online business with the best-fit video content.")
-        st.write("📞 **Phone:** (509)-47385663")
-        st.write("📧 **Email:** deslandes78@gmail.com")
+        st.write(f"📞 **Phone:** (509)-47385663")
+        st.write(f"📧 **Email:** deslandes78@gmail.com")
         st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
 
 # 5. CSS & Slideshow JavaScript
 st.markdown(f"""
     <style>
-    /* UI Cleanup - Double braces to prevent SyntaxError */
     footer {{ visibility: hidden; }}
     header {{ visibility: hidden; }}
     .stApp {{ margin: 0; padding: 0; background-color: #4a2c21; }}
@@ -87,27 +86,23 @@ st.markdown(f"""
     </div>
 
     <div class="video-container">
-        <video id="heroVideo" autoplay muted playsinline>
-            <source id="videoSource" src="{video_1}" type="video/mp4">
+        <video id="player" autoplay muted playsinline>
+            <source id="source" src="{v1}" type="video/mp4">
         </video>
     </div>
 
     <script>
-    var player = document.getElementById('heroVideo');
-    var source = document.getElementById('videoSource');
-    var playlist = ["{video_1}", "{video_2}"];
-    var currentTrack = 0;
+    var vid = document.getElementById('player');
+    var src = document.getElementById('source');
+    var list = ["{v1}", "{v2}"];
+    var i = 0;
 
-    player.onended = function() {{
-        currentTrack++;
-        if (currentTrack >= playlist.length) {{
-            currentTrack = 0; 
-        }}
-        
-        // Update source, reload, and play
-        source.src = playlist[currentTrack];
-        player.load();
-        player.play();
+    vid.onended = function() {{
+        i = (i + 1) % list.length;
+        console.log("Switching to video: " + list[i]);
+        src.src = list[i];
+        vid.load();
+        vid.play();
     }};
     </script>
     """, unsafe_allow_html=True)
