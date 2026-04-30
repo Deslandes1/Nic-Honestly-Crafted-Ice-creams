@@ -36,11 +36,11 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;    /* First video: full screen, no black bars */
+            object-fit: cover;    /* First video full screen */
         }}
         .show-table {{
             object-fit: cover !important;
-            object-position: 50% 85% !important;
+            object-position: 50% 85% !important;   /* Crop to show table, hide bad text */
         }}
         .top-overlay {{
             position: fixed;
@@ -154,5 +154,5 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Embed the video player (height is irrelevant because CSS forces the iframe to full screen)
-st.components.v1.html(video_html, height=1, scrolling=False)
+# Use st.iframe (replaces deprecated st.components.v1.html)
+st.iframe(video_html, width="100%", height="100%", scrolling=False)
