@@ -99,10 +99,14 @@ st.markdown(f"""
     var currentClip = 0;
 
     player.onended = function() {{
-        currentClip = (currentClip + 1) % clips.length;
-        source.src = clips[currentClip];
-        player.load();
-        player.play();
+        // Play second video after first, then stop (no loop)
+        if (currentClip === 0) {{
+            currentClip = 1;
+            source.src = clips[currentClip];
+            player.load();
+            player.play();
+        }}
+        // If second video ends, do nothing
     }};
     </script>
     """, unsafe_allow_html=True)
