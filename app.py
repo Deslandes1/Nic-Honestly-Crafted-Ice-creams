@@ -6,6 +6,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Use the RAW links (direct video files)
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://github.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/raw/refs/heads/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
@@ -80,7 +81,6 @@ html_code = f"""
         var secondVideoSrc = "{video_2}";
         var secondPlayed = false;
 
-        // When first video ends, play second video immediately
         video.onended = function() {{
             if (!secondPlayed) {{
                 secondPlayed = true;
@@ -88,6 +88,8 @@ html_code = f"""
                 video.classList.add('second-crop');
                 video.load();
                 video.play();
+                // Stop after second video ends
+                video.onended = function() {{ }};
             }}
         }};
     </script>
@@ -95,7 +97,7 @@ html_code = f"""
 </html>
 """
 
-# Hide Streamlit's default UI
+# Completely hide Streamlit's default UI
 st.markdown(
     """
     <style>
@@ -118,4 +120,5 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Inject the full HTML page (no iframe, no component)
 st.markdown(html_code, unsafe_allow_html=True)
