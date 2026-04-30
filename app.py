@@ -1,45 +1,29 @@
 import streamlit as st
 
-# 1. Page Config
+# 1. Page Config – remove default padding, hide sidebar
 st.set_page_config(
     page_title="NIC Honestly Crafted Ice Creams", 
     layout="wide", 
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
-# 2. Initialize Toggle State
-if 'show_info' not in st.session_state:
-    st.session_state.show_info = True 
-
-# 3. Direct Video Links (Using the RAW format)
+# 2. Direct Video Links
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 4. Sidebar Content
-with st.sidebar:
-    st.title("Menu")
-    if st.button('“ Tap to see/hide info ”'):
-        st.session_state.show_info = not st.session_state.show_info
-
-    if st.session_state.show_info:
-        st.markdown("---")
-        st.markdown("### 🍦 Indulge in Perfection")
-        st.write("Experience the art of pure indulgence. **NIC Honestly Crafted Ice Creams** is a masterpiece of flavor.")
-        st.markdown("👉 [Visit NIC Ice Creams](https://www.nicicecreams.com/)")
-        st.divider()
-        st.markdown("### 🚀 Powered by GlobalInternet.py")
-        st.write("We promote your online business with the best-fit video content.")
-        st.write("📞 **Phone:** (509)-47385663")
-        st.write("📧 **Email:** deslandes78@gmail.com")
-        st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
-
-# 5. Video Player with Persistent Playback (iframe component)
+# 3. Full‑screen video player (iframe component, no sidebar)
 video_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-        body {{ margin: 0; padding: 0; overflow: hidden; background-color: black; }}
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{ 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background-color: black;
+        }}
         .video-container {{
             position: fixed;
             top: 0;
@@ -52,7 +36,7 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;   /* Full screen – fills the entire viewport */
+            object-fit: cover;   /* fills entire screen, no black bars */
         }}
         .top-overlay {{
             position: fixed;
@@ -102,4 +86,18 @@ video_html = f"""
 </html>
 """
 
+# 4. Hide Streamlit’s default chrome (top bar, footer, sidebar)
+hide_streamlit_style = """
+    <style>
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        .stApp {margin: 0; padding: 0;}
+        [data-testid="stSidebar"] {display: none;}
+        .main > div {padding: 0;}
+        .block-container {padding: 0 !important; max-width: 100% !important;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+# 5. Embed the full‑screen video player
 st.components.v1.html(video_html, height=800, scrolling=False)
