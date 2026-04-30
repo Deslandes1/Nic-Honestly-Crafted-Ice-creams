@@ -119,7 +119,7 @@ video_html = f"""
 </html>
 """
 
-# Hide Streamlit default UI and make the iframe full screen on all devices
+# Hide Streamlit default UI and force iframe full screen
 hide_streamlit_style = """
     <style>
         header, footer, .stApp, .main, .block-container {
@@ -138,21 +138,21 @@ hide_streamlit_style = """
             padding: 0 !important;
             max-width: 100% !important;
         }
-        /* Make the iframe full screen */
+        /* Make iframe full screen */
         iframe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            border: none;
-            margin: 0;
-            padding: 0;
-            z-index: 9999;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            z-index: 9999 !important;
         }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Use st.iframe (replaces deprecated st.components.v1.html)
-st.iframe(video_html, width="100%", height="100%", scrolling=False)
+# Use st.iframe (no 'scrolling' keyword)
+st.iframe(video_html, width="100%", height="100%")
