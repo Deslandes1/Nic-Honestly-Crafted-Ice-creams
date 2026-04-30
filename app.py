@@ -9,7 +9,6 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# Full HTML/CSS/JS page that fits any screen
 html_code = f"""
 <!DOCTYPE html>
 <html>
@@ -36,11 +35,11 @@ html_code = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;   /* first video fills screen */
+            object-fit: cover;
         }}
         .second-video-style {{
             object-fit: cover !important;
-            object-position: 50% 85% !important;   /* crop to show table */
+            object-position: 50% 85% !important;   /* crops top, shows table */
         }}
         .marquee {{
             position: fixed;
@@ -82,28 +81,16 @@ html_code = f"""
         var player = document.getElementById('player');
         var secondVideo = "{video_2}";
         var playedSecond = false;
-        var timeout;
 
-        function switchToSecond() {{
+        player.onended = function() {{
             if (!playedSecond) {{
                 playedSecond = true;
-                clearTimeout(timeout);
                 player.src = secondVideo;
                 player.classList.add('second-video-style');
                 player.load();
                 player.play();
-                // Stop after second video ends
+                // after second video ends, stop
                 player.onended = function() {{ }};
-            }}
-        }}
-
-        // Switch after 5 seconds
-        timeout = setTimeout(switchToSecond, 5000);
-
-        // If first video ends before 5 seconds, switch anyway
-        player.onended = function() {{
-            if (!playedSecond) {{
-                switchToSecond();
             }}
         }};
     </script>
@@ -111,7 +98,6 @@ html_code = f"""
 </html>
 """
 
-# Kill Streamlit's default UI and force fullscreen
 st.markdown(
     """
     <style>
@@ -136,5 +122,4 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inject the HTML directly (no iframe)
 st.markdown(html_code, unsafe_allow_html=True)
