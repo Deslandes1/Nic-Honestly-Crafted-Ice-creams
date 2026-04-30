@@ -52,7 +52,7 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: contain;   /* ✅ changed from 'cover' to show the entire video */
+            object-fit: cover;   /* Full screen – fills the entire viewport */
         }}
         .top-overlay {{
             position: fixed;
