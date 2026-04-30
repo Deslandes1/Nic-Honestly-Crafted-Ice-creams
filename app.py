@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with moving text and top‑crop for second video
+# 3. Full‑screen video player with moving text and second video cropped to bottom
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -36,12 +36,12 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: contain;   /* Shows whole original frames */
-            transition: clip-path 0.1s ease;
+            object-fit: contain;   /* First video shows full frame */
         }}
-        /* Class added to second video to crop the top */
-        .crop-top {{
-            clip-path: inset(60px 0 0 0);  /* Remove top 60 pixels – adjust as needed */
+        /* Class for second video: cover the whole screen, show bottom part, crop top */
+        .crop-to-bottom {{
+            object-fit: cover !important;
+            object-position: bottom !important;
         }}
         .top-overlay {{
             position: fixed;
@@ -96,9 +96,9 @@ video_html = f"""
             if (!playedSecond) {{
                 playedSecond = true;
                 source.src = secondVideo;
+                // Switch to crop-to-bottom class: covers screen, shows bottom, crops top
+                player.classList.add('crop-to-bottom');
                 player.load();
-                // Apply top crop to second video
-                player.classList.add('crop-top');
                 player.play();
             }}
         }};
