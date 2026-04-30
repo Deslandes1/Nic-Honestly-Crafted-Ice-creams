@@ -11,11 +11,11 @@ st.set_page_config(
 if 'show_info' not in st.session_state:
     st.session_state.show_info = True 
 
-# 3. Video Links (Raw GitHub Links)
+# 3. Direct Video Links (Raw GitHub format)
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 4. Sidebar Content
+# 4. Sidebar Content with Full Promotion
 with st.sidebar:
     st.title("Menu")
     if st.button('“ Tap to see/hide info ”'):
@@ -25,17 +25,18 @@ with st.sidebar:
         st.markdown("---")
         st.markdown("### 🍦 Indulge in Perfection")
         st.write("Experience the art of pure indulgence. **NIC Honestly Crafted Ice Creams** is a masterpiece of flavor.")
-        st.markdown("👉 [www.nicicecreams.com](https://www.nicicecreams.com/)")
+        st.markdown("👉 [Visit NIC Ice Creams](https://www.nicicecreams.com/)")
         st.divider()
         st.markdown("### 🚀 Powered by GlobalInternet.py")
-        st.write("We promote your online business with custom video content.")
+        st.write("We promote your online business with the best-fit video content.")
         st.write("📞 **Phone:** (509)-47385663")
         st.write("📧 **Email:** deslandes78@gmail.com")
         st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
 
-# 5. CSS and Javascript for the Slideshow
+# 5. CSS and Slideshow JavaScript
 st.markdown(f"""
     <style>
+    /* UI Cleanup */
     footer {{ visibility: hidden; }}
     header {{ visibility: hidden; }}
     .stApp {{ margin: 0; padding: 0; background-color: #4a2c21; }}
@@ -43,6 +44,7 @@ st.markdown(f"""
     [data-testid="stSidebar"] {{ background-color: #4a2c21 !important; }}
     [data-testid="stSidebar"] * {{ color: white !important; }}
 
+    /* Fullscreen Video Container */
     .video-container {{
         position: fixed;
         top: 0;
@@ -50,6 +52,7 @@ st.markdown(f"""
         width: 100vw;
         height: 100vh;
         z-index: 1;
+        background-color: #000;
     }}
 
     video {{
@@ -58,6 +61,7 @@ st.markdown(f"""
         object-fit: cover;
     }}
 
+    /* Branding Overlay */
     .top-overlay {{
         position: fixed;
         top: 0;
@@ -82,31 +86,27 @@ st.markdown(f"""
     </div>
 
     <div class="video-container">
-        <video id="mainPlayer" autoplay muted playsinline>
-            <source src="{video_1}" type="video/mp4">
+        <video id="heroVideo" autoplay muted playsinline src="{video_1}">
+            Your browser does not support the video tag.
         </video>
     </div>
 
     <script>
-    var player = document.getElementById('mainPlayer');
+    var player = document.getElementById('heroVideo');
     var playlist = ["{video_1}", "{video_2}"];
-    var activeVideo = 0;
+    var currentTrack = 0;
 
+    // Detect when the current video finishes
     player.onended = function() {{
-        activeVideo++;
-        if (activeVideo >= playlist.length) {{
-            activeVideo = 0;
+        currentTrack++;
+        if (currentTrack >= playlist.length) {{
+            currentTrack = 0; // Loop back to the start
         }}
         
-        // Update the source and force a reload
-        player.src = playlist[activeVideo];
-        player.pause();
+        // Switch source and force immediate playback
+        player.src = playlist[currentTrack];
         player.load();
-        player.play().catch(error => {{
-            console.log("Auto-play was prevented. Ensuring muted state.");
-            player.muted = true;
-            player.play();
-        }});
+        player.play();
     }};
     </script>
     """, unsafe_allow_html=True)
