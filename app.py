@@ -34,7 +34,6 @@ with st.sidebar:
         st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
 
 # 5. CSS & Javascript for the Slideshow
-# NOTE: All CSS/JS braces are doubled {{ }} to avoid f-string SyntaxErrors
 st.markdown(f"""
     <style>
     footer {{ visibility: hidden; }}
