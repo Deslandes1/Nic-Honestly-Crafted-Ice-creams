@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with moving text, first video full screen, second cropped to table
+# 3. Full‑screen video player with 5‑second first video, then second video (cropped to table)
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;    /* First video: full screen, no black bars, no frame */
+            object-fit: cover;    /* First video: full screen, no black bars */
         }}
         /* Class for second video: keep cropping to show table, hide bad text */
         .show-table {{
@@ -91,12 +91,31 @@ video_html = f"""
         var source = document.getElementById('vidSource');
         var secondVideo = "{video_2}";
         var playedSecond = false;
+        var timeout;
 
+        // Play first video for exactly 5 seconds
+        timeout = setTimeout(function() {{
+            if (!playedSecond) {{
+                playedSecond = true;
+                clearTimeout(timeout);
+                // Switch to second video
+                source.src = secondVideo;
+                player.classList.add('show-table');
+                player.load();
+                player.play();
+                // Ensure second video stops after ending (no loop)
+                player.onended = function() {{
+                    // do nothing, video stops
+                }};
+            }}
+        }}, 5000);  // 5 seconds
+
+        // In case the first video ends before 5 seconds (unlikely), still switch
         player.onended = function() {{
             if (!playedSecond) {{
                 playedSecond = true;
+                clearTimeout(timeout);
                 source.src = secondVideo;
-                // Apply table cropping to second video
                 player.classList.add('show-table');
                 player.load();
                 player.play();
