@@ -6,7 +6,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Direct raw video URLs (use the correct raw format)
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/refs/heads/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
@@ -88,7 +87,6 @@ html_code = f"""
                 video.classList.add('second-crop');
                 video.load();
                 video.play();
-                // stop after second video ends
                 video.onended = function() {{ }};
             }}
         }};
@@ -97,7 +95,6 @@ html_code = f"""
 </html>
 """
 
-# Hide Streamlit's default UI and enforce fullscreen
 st.markdown(
     """
     <style>
