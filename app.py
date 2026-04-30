@@ -1,6 +1,6 @@
 import streamlit as st
 
-# 1. Page Config – remove sidebar, expand to full width
+# 1. Page Config – no sidebar, full width
 st.set_page_config(
     page_title="NIC Honestly Crafted Ice Creams", 
     layout="wide", 
@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with 'contain' to show entire video (no cropping)
+# 3. Full‑screen video player with scrolling text at the top
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -36,31 +36,69 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: contain;   /* Shows the whole video – no cropping, preserves original aspect ratio */
+            object-fit: contain;   /* Shows whole video, no cropping */
         }}
+        /* Moving text overlay */
         .top-overlay {{
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 50px 0;
-            text-align: center;
+            padding: 20px 0;
             z-index: 9999;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
             pointer-events: none;
+            white-space: nowrap;
+            overflow: hidden;
         }}
-        .website-name {{
-            color: white !important;
-            font-family: 'Arial Black', sans-serif;
-            font-size: 3.5rem;
-            text-shadow: 4px 4px 15px rgba(0,0,0,1);
-            margin: 0;
+        .marquee {{
+            display: inline-block;
+            white-space: nowrap;
+            animation: scrollText 20s linear infinite;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px black;
+            letter-spacing: 1px;
+        }}
+        @keyframes scrollText {{
+            0% {{ transform: translateX(100%); }}
+            100% {{ transform: translateX(-100%); }}
+        }}
+        /* Optional: add a second identical text to make it seamless */
+        .marquee-wrapper {{
+            display: flex;
+            gap: 3rem;
+            width: fit-content;
+            animation: scrollText 25s linear infinite;
+        }}
+        /* Simpler single-line marquee */
+        .simple-marquee {{
+            font-family: 'Arial', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px black;
+            white-space: nowrap;
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll 20s linear infinite;
+        }}
+        @keyframes scroll {{
+            0% {{ transform: translateX(0); }}
+            100% {{ transform: translateX(-100%); }}
         }}
     </style>
 </head>
 <body>
     <div class="top-overlay">
-        <h1 class="website-name">NIC Honestly Crafted Ice Creams</h1>
+        <div style="overflow: hidden; white-space: nowrap;">
+            <div class="simple-marquee">
+                Celebrate big with NIC Ice Creams – contact us for special offers for bulk or party orders today! &nbsp;&nbsp;&nbsp;
+                Celebrate big with NIC Ice Creams – contact us for special offers for bulk or party orders today! &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
     </div>
     <div class="video-container">
         <video id="vidPlayer" autoplay muted playsinline>
@@ -86,7 +124,7 @@ video_html = f"""
 </html>
 """
 
-# 4. Hide Streamlit’s default chrome (header, footer, sidebar)
+# 4. Hide Streamlit’s default UI (header, footer, sidebar)
 hide_streamlit_style = """
     <style>
         header {visibility: hidden;}
@@ -99,5 +137,5 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# 5. Embed the video player
+# 5. Embed the video player with moving text
 st.components.v1.html(video_html, height=800, scrolling=False)
