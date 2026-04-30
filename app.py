@@ -1,6 +1,6 @@
 import streamlit as st
 
-# 1. Page Config – remove default padding, hide sidebar
+# 1. Page Config – remove sidebar, expand to full width
 st.set_page_config(
     page_title="NIC Honestly Crafted Ice Creams", 
     layout="wide", 
@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player (iframe component, no sidebar)
+# 3. Full‑screen video player with 'contain' to show entire video (no cropping)
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: cover;   /* fills entire screen, no black bars */
+            object-fit: contain;   /* Shows the whole video – no cropping, preserves original aspect ratio */
         }}
         .top-overlay {{
             position: fixed;
@@ -86,7 +86,7 @@ video_html = f"""
 </html>
 """
 
-# 4. Hide Streamlit’s default chrome (top bar, footer, sidebar)
+# 4. Hide Streamlit’s default chrome (header, footer, sidebar)
 hide_streamlit_style = """
     <style>
         header {visibility: hidden;}
@@ -99,5 +99,5 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# 5. Embed the full‑screen video player
+# 5. Embed the video player
 st.components.v1.html(video_html, height=800, scrolling=False)
