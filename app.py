@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with moving text and second video cropped to show the table
+# 3. Full‑screen video player with moving text, first video full screen, second cropped to table
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -36,12 +36,12 @@ video_html = f"""
         video {{
             width: 100%;
             height: 100%;
-            object-fit: contain;   /* First video shows full frame */
+            object-fit: cover;    /* First video: full screen, no black bars, no frame */
         }}
-        /* For second video: cover full screen, show only bottom part (table) */
+        /* Class for second video: keep cropping to show table, hide bad text */
         .show-table {{
             object-fit: cover !important;
-            object-position: 50% 85% !important;  /* Shows bottom 15% where table is */
+            object-position: 50% 85% !important;  /* Adjust to show table clearly */
         }}
         .top-overlay {{
             position: fixed;
@@ -96,6 +96,7 @@ video_html = f"""
             if (!playedSecond) {{
                 playedSecond = true;
                 source.src = secondVideo;
+                // Apply table cropping to second video
                 player.classList.add('show-table');
                 player.load();
                 player.play();
