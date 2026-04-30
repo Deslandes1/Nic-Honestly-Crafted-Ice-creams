@@ -11,7 +11,7 @@ st.set_page_config(
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with moving text and second video cropped to bottom
+# 3. Full‑screen video player with moving text and second video cropped to show heads
 video_html = f"""
 <!DOCTYPE html>
 <html>
@@ -38,10 +38,10 @@ video_html = f"""
             height: 100%;
             object-fit: contain;   /* First video shows full frame */
         }}
-        /* Class for second video: cover the whole screen, show bottom part, crop top */
-        .crop-to-bottom {{
+        /* Class for second video: cover full screen, position to show heads (30% from top) */
+        .crop-to-heads {{
             object-fit: cover !important;
-            object-position: bottom !important;
+            object-position: 50% 30% !important;  /* Adjust % to see heads clearly */
         }}
         .top-overlay {{
             position: fixed;
@@ -96,8 +96,7 @@ video_html = f"""
             if (!playedSecond) {{
                 playedSecond = true;
                 source.src = secondVideo;
-                // Switch to crop-to-bottom class: covers screen, shows bottom, crops top
-                player.classList.add('crop-to-bottom');
+                player.classList.add('crop-to-heads');
                 player.load();
                 player.play();
             }}
@@ -107,7 +106,7 @@ video_html = f"""
 </html>
 """
 
-# 4. Hide Streamlit’s default UI (header, footer, sidebar)
+# 4. Hide Streamlit’s default UI
 hide_streamlit_style = """
     <style>
         header {visibility: hidden;}
