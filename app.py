@@ -1,35 +1,35 @@
 import streamlit as st
 
-# 1. Page Config – no sidebar, full width
 st.set_page_config(
     page_title="NIC Honestly Crafted Ice Creams", 
     layout="wide", 
     initial_sidebar_state="collapsed"
 )
 
-# 2. Direct Video Links
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 3. Full‑screen video player with 5‑second first video, then second video (cropped to table)
 video_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{ 
-            margin: 0; 
-            padding: 0; 
-            overflow: hidden; 
+        html, body {{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             background-color: black;
         }}
         .video-container {{
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             z-index: 1;
             background-color: black;
         }}
@@ -38,10 +38,9 @@ video_html = f"""
             height: 100%;
             object-fit: cover;    /* First video: full screen, no black bars */
         }}
-        /* Class for second video: keep cropping to show table, hide bad text */
         .show-table {{
             object-fit: cover !important;
-            object-position: 50% 85% !important;  /* Adjust to show table clearly */
+            object-position: 50% 85% !important;
         }}
         .top-overlay {{
             position: fixed;
@@ -57,7 +56,7 @@ video_html = f"""
         }}
         .simple-marquee {{
             font-family: 'Arial', sans-serif;
-            font-size: 1.8rem;
+            font-size: clamp(1rem, 5vw, 1.8rem);
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 8px black;
@@ -93,24 +92,18 @@ video_html = f"""
         var playedSecond = false;
         var timeout;
 
-        // Play first video for exactly 5 seconds
         timeout = setTimeout(function() {{
             if (!playedSecond) {{
                 playedSecond = true;
                 clearTimeout(timeout);
-                // Switch to second video
                 source.src = secondVideo;
                 player.classList.add('show-table');
                 player.load();
                 player.play();
-                // Ensure second video stops after ending (no loop)
-                player.onended = function() {{
-                    // do nothing, video stops
-                }};
+                player.onended = function() {{ }};
             }}
-        }}, 5000);  // 5 seconds
+        }}, 5000);
 
-        // In case the first video ends before 5 seconds (unlikely), still switch
         player.onended = function() {{
             if (!playedSecond) {{
                 playedSecond = true;
@@ -126,18 +119,40 @@ video_html = f"""
 </html>
 """
 
-# 4. Hide Streamlit’s default UI
+# Hide Streamlit default UI and make the iframe full screen on all devices
 hide_streamlit_style = """
     <style>
-        header {visibility: hidden;}
-        footer {visibility: hidden;}
-        .stApp {margin: 0; padding: 0;}
-        [data-testid="stSidebar"] {display: none;}
-        .main > div {padding: 0;}
-        .block-container {padding: 0 !important; max-width: 100% !important;}
+        header, footer, .stApp, .main, .block-container {
+            visibility: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .stApp {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+        [data-testid="stSidebar"] { display: none; }
+        .main > div {
+            padding: 0 !important;
+            max-width: 100% !important;
+        }
+        /* Make the iframe full screen */
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            margin: 0;
+            padding: 0;
+            z-index: 9999;
+        }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# 5. Embed the video player
-st.components.v1.html(video_html, height=800, scrolling=False)
+# Embed the video player (height is irrelevant because CSS forces the iframe to full screen)
+st.components.v1.html(video_html, height=1, scrolling=False)
