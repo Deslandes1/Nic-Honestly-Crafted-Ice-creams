@@ -11,40 +11,59 @@ st.set_page_config(
 if 'show_info' not in st.session_state:
     st.session_state.show_info = True 
 
-# 3. Direct Video Links (Raw GitHub format)
+# 3. Video Links (RAW GitHub format is mandatory)
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
 
-# 4. Sidebar Content with Full Promotion
+# 4. Sidebar Content with Your Full Description
 with st.sidebar:
     st.title("Menu")
+    
     if st.button('“ Tap to see/hide info ”'):
         st.session_state.show_info = not st.session_state.show_info
 
     if st.session_state.show_info:
         st.markdown("---")
         st.markdown("### 🍦 Indulge in Perfection")
-        st.write("Experience the art of pure indulgence. **NIC Honestly Crafted Ice Creams** is a masterpiece of flavor.")
-        st.markdown("👉 [Visit NIC Ice Creams](https://www.nicicecreams.com/)")
+        st.write("""
+        Experience the art of pure indulgence. **NIC Honestly Crafted Ice Creams** isn't just a dessert; 
+        it’s a masterpiece of flavor and texture. Every scoop is crafted with honesty and quality.
+        """)
+        st.markdown("👉 **Explore here:** [www.nicicecreams.com](https://www.nicicecreams.com/)")
+        
         st.divider()
+        
         st.markdown("### 🚀 Powered by GlobalInternet.py")
-        st.write("We promote your online business with the best-fit video content.")
-        st.write("📞 **Phone:** (509)-47385663")
-        st.write("📧 **Email:** deslandes78@gmail.com")
+        st.write("""
+        We promote your online business by generating the **best-fit video content** tailored to your brand’s identity.
+        """)
         st.write("🌐 **Web:** [GlobalInternet.py](https://globalinternetsitepy-abh7v6tnmskxxnuplrdcgk.streamlit.app/)")
+        st.write("📧 **Email:** deslandes78@gmail.com")
+        st.write("📞 **Phone:** (509)-47385663")
+        
+        st.caption("“We craft digital experiences that sell.”")
 
-# 5. CSS and Slideshow JavaScript
+# 5. CSS & Javascript for Continuous Slideshow
 st.markdown(f"""
     <style>
-    /* UI Cleanup */
     footer {{ visibility: hidden; }}
     header {{ visibility: hidden; }}
-    .stApp {{ margin: 0; padding: 0; background-color: #4a2c21; }}
     
-    [data-testid="stSidebar"] {{ background-color: #4a2c21 !important; }}
-    [data-testid="stSidebar"] * {{ color: white !important; }}
+    .stApp {{
+        margin: 0;
+        padding: 0;
+        background-color: #4a2c21;
+    }}
 
-    /* Fullscreen Video Container */
+    [data-testid="stSidebar"] {{
+        background-color: #4a2c21 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }}
+    
+    [data-testid="stSidebar"] * {{
+        color: white !important;
+    }}
+
     .video-container {{
         position: fixed;
         top: 0;
@@ -52,7 +71,7 @@ st.markdown(f"""
         width: 100vw;
         height: 100vh;
         z-index: 1;
-        background-color: #000;
+        background-color: black;
     }}
 
     video {{
@@ -61,7 +80,6 @@ st.markdown(f"""
         object-fit: cover;
     }}
 
-    /* Branding Overlay */
     .top-overlay {{
         position: fixed;
         top: 0;
@@ -86,25 +104,23 @@ st.markdown(f"""
     </div>
 
     <div class="video-container">
-        <video id="heroVideo" autoplay muted playsinline src="{video_1}">
-            Your browser does not support the video tag.
+        <video id="slideshowPlayer" autoplay muted playsinline>
+            <source src="{video_1}" type="video/mp4">
         </video>
     </div>
 
     <script>
-    var player = document.getElementById('heroVideo');
+    var player = document.getElementById('slideshowPlayer');
     var playlist = ["{video_1}", "{video_2}"];
-    var currentTrack = 0;
+    var current = 0;
 
-    // Detect when the current video finishes
     player.onended = function() {{
-        currentTrack++;
-        if (currentTrack >= playlist.length) {{
-            currentTrack = 0; // Loop back to the start
+        current++;
+        if (current >= playlist.length) {{
+            current = 0;
         }}
-        
-        // Switch source and force immediate playback
-        player.src = playlist[currentTrack];
+        // Force source change and reload
+        player.src = playlist[current];
         player.load();
         player.play();
     }};
