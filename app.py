@@ -6,15 +6,13 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ========== UPDATED VIDEO & IMAGE LINKS ==========
+# ========== RAW MEDIA LINKS ==========
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
-# 3rd: Static image (NIC 5.png)
 image_3 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/NIC%205.png"
-# 4th: New video (NIC6a.mp4)
 video_4 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/NIC6a.mp4"
 
-# ========== FULL HTML/JS PLAYER (2 videos → image → 1 final video) ==========
+# ========== HTML/JS PLAYER (no components.html) ==========
 html_code = f"""
 <!DOCTYPE html>
 <html>
@@ -85,26 +83,26 @@ html_code = f"""
         </div>
     </div>
 
-    <!-- Video 1 (first) -->
+    <!-- Video 1 -->
     <div id="video1Container" class="video-container">
         <video id="player1" autoplay muted playsinline>
             <source src="{video_1}" type="video/mp4">
         </video>
     </div>
 
-    <!-- Video 2 (second, cropped to show the table) -->
+    <!-- Video 2 (cropped) -->
     <div id="video2Container" class="video-container" style="display: none;">
         <video id="player2" muted playsinline>
             <source src="{video_2}" type="video/mp4">
         </video>
     </div>
 
-    <!-- 3rd: STATIC IMAGE (NIC 5.png) -->
+    <!-- Image 3 (static) -->
     <div id="imageContainer" class="image-container" style="display: none;">
         <img id="staticImage" src="{image_3}" alt="NIC Ice Creams">
     </div>
 
-    <!-- Video 4 (final video) -->
+    <!-- Video 4 (final) -->
     <div id="video4Container" class="video-container" style="display: none;">
         <video id="player4" muted playsinline>
             <source src="{video_4}" type="video/mp4">
@@ -119,7 +117,7 @@ html_code = f"""
         var container2 = document.getElementById('video2Container');
         var imageContainer = document.getElementById('imageContainer');
         var container4 = document.getElementById('video4Container');
-        var timeout;
+        var timeout, imageTimeout;
 
         function switchToSecond() {{
             clearTimeout(timeout);
@@ -132,29 +130,23 @@ html_code = f"""
             }}
         }}
 
-        // After second video ends, show the static image
         player2.onended = function() {{
             container2.style.display = 'none';
             player2.pause();
             imageContainer.style.display = 'block';
         }};
 
-        // After the static image has been displayed for 5 seconds, start the final video
-        var imageTimeout;
         function showFinalVideo() {{
             imageContainer.style.display = 'none';
             container4.style.display = 'block';
             player4.play();
-            // After final video ends, do nothing (stop)
             player4.onended = function() {{ }};
         }}
 
-        // When the image becomes visible, start a 5-second timer
         var observer = new MutationObserver(function(mutations) {{
             mutations.forEach(function(mutation) {{
                 if (mutation.type === 'attributes' && mutation.attributeName === 'style') {{
                     if (imageContainer.style.display === 'block') {{
-                        // Clear any existing timeout and set a new one
                         if (imageTimeout) clearTimeout(imageTimeout);
                         imageTimeout = setTimeout(showFinalVideo, 5000);
                     }}
@@ -163,7 +155,6 @@ html_code = f"""
         }});
         observer.observe(imageContainer, {{ attributes: true }});
 
-        // First video: switch after 5 seconds or when it ends
         timeout = setTimeout(switchToSecond, 5000);
         player1.onended = switchToSecond;
     </script>
@@ -171,7 +162,7 @@ html_code = f"""
 </html>
 """
 
-# Hide Streamlit default UI and ensure full‑screen
+# Hide Streamlit UI and inject full‑screen HTML
 st.markdown(
     """
     <style>
@@ -194,4 +185,5 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.components.v1.html(html_code, height=800, scrolling=False)
+# ✅ Use st.markdown directly – no st.components.v1.html, no deprecation warning
+st.markdown(html_code, unsafe_allow_html=True)
