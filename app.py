@@ -1,47 +1,50 @@
 import streamlit as st
 
-# 1. Page Config – no sidebar, full width
 st.set_page_config(
-    page_title="NIC Honestly Crafted Ice Creams", 
-    layout="wide", 
+    page_title="NIC Honestly Crafted Ice Creams",
+    layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# 2. Direct Video Links
+# ========== UPDATED VIDEO & IMAGE LINKS ==========
 video_1 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-5258-make%20the%20different%20flavor%20ice%20creams%20mov....mp4"
 video_2 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/dreamina-2026-04-29-3384-his%20writing%20must%20passing%20by%20as%20a%20slidesh....mp4"
+# 3rd: Static image (NIC 5.png)
+image_3 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/NIC%205.png"
+# 4th: New video (NIC6a.mp4)
+video_4 = "https://raw.githubusercontent.com/Deslandes1/Nic-Honestly-Crafted-Ice-creams/main/NIC6a.mp4"
 
-# 3. Full‑screen video player with 5‑second first video, then second video (cropped to table)
-video_html = f"""
+# ========== FULL HTML/JS PLAYER (2 videos → image → 1 final video) ==========
+html_code = f"""
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{ 
-            margin: 0; 
-            padding: 0; 
-            overflow: hidden; 
-            background-color: black;
+        body, html {{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: black;
         }}
-        .video-container {{
+        .video-container, .image-container {{
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            background-color: black;
+            background: black;
         }}
-        video {{
+        video, img {{
             width: 100%;
             height: 100%;
-            object-fit: cover;    /* First video: full screen, no black bars */
+            object-fit: cover;
         }}
-        /* Class for second video: keep cropping to show table, hide bad text */
         .show-table {{
             object-fit: cover !important;
-            object-position: 50% 85% !important;  /* Adjust to show table clearly */
+            object-position: 50% 85% !important;
         }}
         .top-overlay {{
             position: fixed;
@@ -50,14 +53,14 @@ video_html = f"""
             width: 100%;
             padding: 20px 0;
             z-index: 9999;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0));
             pointer-events: none;
             white-space: nowrap;
             overflow: hidden;
         }}
         .simple-marquee {{
             font-family: 'Arial', sans-serif;
-            font-size: 1.8rem;
+            font-size: clamp(1rem, 5vw, 1.8rem);
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 8px black;
@@ -81,63 +84,114 @@ video_html = f"""
             </div>
         </div>
     </div>
-    <div class="video-container">
-        <video id="vidPlayer" autoplay muted playsinline>
-            <source id="vidSource" src="{video_1}" type="video/mp4">
+
+    <!-- Video 1 (first) -->
+    <div id="video1Container" class="video-container">
+        <video id="player1" autoplay muted playsinline>
+            <source src="{video_1}" type="video/mp4">
         </video>
     </div>
+
+    <!-- Video 2 (second, cropped to show the table) -->
+    <div id="video2Container" class="video-container" style="display: none;">
+        <video id="player2" muted playsinline>
+            <source src="{video_2}" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- 3rd: STATIC IMAGE (NIC 5.png) -->
+    <div id="imageContainer" class="image-container" style="display: none;">
+        <img id="staticImage" src="{image_3}" alt="NIC Ice Creams">
+    </div>
+
+    <!-- Video 4 (final video) -->
+    <div id="video4Container" class="video-container" style="display: none;">
+        <video id="player4" muted playsinline>
+            <source src="{video_4}" type="video/mp4">
+        </video>
+    </div>
+
     <script>
-        var player = document.getElementById('vidPlayer');
-        var source = document.getElementById('vidSource');
-        var secondVideo = "{video_2}";
-        var playedSecond = false;
+        var player1 = document.getElementById('player1');
+        var player2 = document.getElementById('player2');
+        var player4 = document.getElementById('player4');
+        var container1 = document.getElementById('video1Container');
+        var container2 = document.getElementById('video2Container');
+        var imageContainer = document.getElementById('imageContainer');
+        var container4 = document.getElementById('video4Container');
         var timeout;
 
-        // Play first video for exactly 5 seconds
-        timeout = setTimeout(function() {{
-            if (!playedSecond) {{
-                playedSecond = true;
-                clearTimeout(timeout);
-                // Switch to second video
-                source.src = secondVideo;
-                player.classList.add('show-table');
-                player.load();
-                player.play();
-                // Ensure second video stops after ending (no loop)
-                player.onended = function() {{
-                    // do nothing, video stops
-                }};
+        function switchToSecond() {{
+            clearTimeout(timeout);
+            if (container1.style.display !== 'none') {{
+                container1.style.display = 'none';
+                player1.pause();
+                container2.style.display = 'block';
+                player2.play();
+                player2.classList.add('show-table');
             }}
-        }}, 5000);  // 5 seconds
+        }}
 
-        // In case the first video ends before 5 seconds (unlikely), still switch
-        player.onended = function() {{
-            if (!playedSecond) {{
-                playedSecond = true;
-                clearTimeout(timeout);
-                source.src = secondVideo;
-                player.classList.add('show-table');
-                player.load();
-                player.play();
-            }}
+        // After second video ends, show the static image
+        player2.onended = function() {{
+            container2.style.display = 'none';
+            player2.pause();
+            imageContainer.style.display = 'block';
         }};
+
+        // After the static image has been displayed for 5 seconds, start the final video
+        var imageTimeout;
+        function showFinalVideo() {{
+            imageContainer.style.display = 'none';
+            container4.style.display = 'block';
+            player4.play();
+            // After final video ends, do nothing (stop)
+            player4.onended = function() {{ }};
+        }}
+
+        // When the image becomes visible, start a 5-second timer
+        var observer = new MutationObserver(function(mutations) {{
+            mutations.forEach(function(mutation) {{
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {{
+                    if (imageContainer.style.display === 'block') {{
+                        // Clear any existing timeout and set a new one
+                        if (imageTimeout) clearTimeout(imageTimeout);
+                        imageTimeout = setTimeout(showFinalVideo, 5000);
+                    }}
+                }}
+            }});
+        }});
+        observer.observe(imageContainer, {{ attributes: true }});
+
+        // First video: switch after 5 seconds or when it ends
+        timeout = setTimeout(switchToSecond, 5000);
+        player1.onended = switchToSecond;
     </script>
 </body>
 </html>
 """
 
-# 4. Hide Streamlit’s default UI
-hide_streamlit_style = """
+# Hide Streamlit default UI and ensure full‑screen
+st.markdown(
+    """
     <style>
-        header {visibility: hidden;}
-        footer {visibility: hidden;}
-        .stApp {margin: 0; padding: 0;}
-        [data-testid="stSidebar"] {display: none;}
-        .main > div {padding: 0;}
-        .block-container {padding: 0 !important; max-width: 100% !important;}
+        header, footer, .stApp, .main, .block-container {
+            visibility: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100% !important;
+        }
+        .stApp {
+            background: black !important;
+        }
+        [data-testid="stSidebar"] { display: none !important; }
+        .main > div {
+            padding: 0 !important;
+            max-width: 100% !important;
+        }
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
-# 5. Embed the video player
-st.components.v1.html(video_html, height=800, scrolling=False)
+st.components.v1.html(html_code, height=800, scrolling=False)
